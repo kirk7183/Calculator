@@ -22,6 +22,38 @@
 import { ref } from "vue";
 export default {
   setup() {
+    const showing = ref("");
+    const firstNumber = ref(null);
+    const firstOperator = ref(null);
+    const operator = {
+      "/": (a, b) => a / b,
+      "*": (a, b) => a * b,
+      "-": (a, b) => a - b,
+      "+": (a, b) => a + b,
+    };
+
+    function buttonClicked(button) {
+      if (button.type == "number") {
+        if (firstNumber.value === null) {
+          firstNumber.value = Number(showing.value);
+          showing.value = "";
+        }
+        showing.value += button.text;
+      } else if (button.text == "C") {
+        showing.value = "";
+      } else if (button.text == "+/-") {
+        showing.value *= -1; //fast way to make it plus or minus value (2-way)
+      } else if (button.text == "=") {
+        showing.value = operator[firstOperator.value](
+          Number(firstNumber.value),
+          Number(showing.value) //or we can just do + infront both values (+firstNumber.value, +showing.value) - that makes them number
+        );
+      } else if (button.type == "operator") {
+        firstNumber.value = null;
+        firstOperator.value = button.text;
+      }
+    }
+
     const buttons = [
       [
         {
@@ -37,7 +69,7 @@ export default {
           type: "first-row",
         },
         {
-          text: "÷",
+          text: "/",
           type: "operator",
         },
       ],
@@ -55,7 +87,7 @@ export default {
           type: "number",
         },
         {
-          text: "x",
+          text: "*",
           type: "operator",
         },
       ],
@@ -112,20 +144,12 @@ export default {
         },
       ],
     ];
-    const showing = ref("");
-
-    function buttonClicked(button) {
-      if (button.type == "number") {
-        showing.value += button.text;
-      } else if (button.text == "C") {
-        showing.value = "";
-      } else if (button.text == "+/-") {
-      }
-    }
     return {
       buttons,
       showing,
       buttonClicked,
+      firstNumber,
+      firstOperator,
     };
   },
 };
