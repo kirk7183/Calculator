@@ -119,6 +119,7 @@ export default {
         showing.value += button.text;
       } else if (button.text == "C") {
         showing.value = "";
+      } else if (button.text == "+/-") {
       }
     }
     return {
