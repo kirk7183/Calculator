@@ -1,3 +1,3 @@
 # Calculator
 
-Simple calculator workin in Vue 3 with Composition API
+Simple calculator working in Vue 3 with Composition API
