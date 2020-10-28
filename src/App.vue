@@ -4,11 +4,11 @@
     <div class="buttons">
       <div class="button-row" v-for="(row, index) in buttons" :key="index">
         <div
+          v-for="(button, i) in row"
+          :key="i"
           class="button"
           :class="{ operator: button.type == 'operator' }"
           :style="button.style"
-          v-for="(button, i) in row"
-          :key="i"
           @click="buttonClicked(button)"
         >
           {{ button.text }}
